@@ -1,0 +1,13 @@
+E:\Development\WebServer\MainApp\bin\Debug\netcoreapp3.1\MainApp.exe
+E:\Development\WebServer\MainApp\bin\Debug\netcoreapp3.1\MainApp.deps.json
+E:\Development\WebServer\MainApp\bin\Debug\netcoreapp3.1\MainApp.runtimeconfig.json
+E:\Development\WebServer\MainApp\bin\Debug\netcoreapp3.1\MainApp.runtimeconfig.dev.json
+E:\Development\WebServer\MainApp\bin\Debug\netcoreapp3.1\MainApp.dll
+E:\Development\WebServer\MainApp\bin\Debug\netcoreapp3.1\MainApp.pdb
+E:\Development\WebServer\MainApp\obj\Debug\netcoreapp3.1\MainApp.csprojAssemblyReference.cache
+E:\Development\WebServer\MainApp\obj\Debug\netcoreapp3.1\MainApp.csproj.CoreCompileInputs.cache
+E:\Development\WebServer\MainApp\obj\Debug\netcoreapp3.1\MainApp.AssemblyInfoInputs.cache
+E:\Development\WebServer\MainApp\obj\Debug\netcoreapp3.1\MainApp.AssemblyInfo.cs
+E:\Development\WebServer\MainApp\obj\Debug\netcoreapp3.1\MainApp.dll
+E:\Development\WebServer\MainApp\obj\Debug\netcoreapp3.1\MainApp.pdb
+E:\Development\WebServer\MainApp\obj\Debug\netcoreapp3.1\MainApp.genruntimeconfig.cache
