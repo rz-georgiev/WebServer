@@ -4,10 +4,10 @@ namespace WebServer.HTTP
 {
     public interface IHttpServer
     {
-        Task Start(int port);
+        Task StartAsync();
 
-        Task Stop();
+        Task StopAsync();
 
-        Task Reset();
+        Task ResetAsync();
     }
 }

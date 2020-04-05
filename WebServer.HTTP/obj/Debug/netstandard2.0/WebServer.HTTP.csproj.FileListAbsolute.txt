@@ -1,0 +1,4 @@
+E:\Development\WebServer\WebServer.HTTP\obj\Debug\netstandard2.0\WebServer.HTTP.csprojAssemblyReference.cache
+E:\Development\WebServer\WebServer.HTTP\obj\Debug\netstandard2.0\WebServer.HTTP.csproj.CoreCompileInputs.cache
+E:\Development\WebServer\WebServer.HTTP\obj\Debug\netstandard2.0\WebServer.HTTP.AssemblyInfoInputs.cache
+E:\Development\WebServer\WebServer.HTTP\obj\Debug\netstandard2.0\WebServer.HTTP.AssemblyInfo.cs
