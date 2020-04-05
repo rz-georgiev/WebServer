@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Threading.Tasks;
+using WebServer.HTTP;
 
 namespace MainApp
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            HttpServer server = new HttpServer(10220);
+            await server.StartAsync();
         }
     }
 }

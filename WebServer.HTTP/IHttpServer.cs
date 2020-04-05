@@ -6,7 +6,7 @@ namespace WebServer.HTTP
     {
         Task StartAsync();
 
-        Task StopAsync();
+        void Stop();
 
         Task ResetAsync();
     }

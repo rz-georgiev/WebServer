@@ -8,6 +8,7 @@ namespace WebServer.HTTP
 {
     public class HttpServer : IHttpServer
     {
+        private TcpListener _listener;
         private int _port;
 
         public HttpServer(int port)
@@ -17,21 +18,21 @@ namespace WebServer.HTTP
 
         public async Task StartAsync()
         {
-            TcpListener listener = new TcpListener(IPAddress.Loopback, _port);
-            listener.Start();
+            _listener = new TcpListener(IPAddress.Loopback, _port);
+            _listener.Start();
 
             while (true)
             {
-                TcpClient client = await listener.AcceptTcpClientAsync();
+                TcpClient client = await _listener.AcceptTcpClientAsync();
                 using NetworkStream stream = client.GetStream();
 
                 byte[] buffer = new byte[1_000_000];
                 int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
 
-                string content = Encoding.UTF8.GetString(buffer);
+                string requestString = Encoding.UTF8.GetString(buffer);
+                HttpRequest request = new HttpRequest(requestString);
 
-                //Console.WriteLine(content);
-                //Console.WriteLine(new string('*', 20));
+                Console.WriteLine(request.ToString());
 
                 //string responseText = "<h1>Kur</h1>";
                 //string response = $"HTTP/1.1 200 OK{HttpConstants.NEW_LINE}" +
@@ -49,14 +50,14 @@ namespace WebServer.HTTP
             }
         }
 
-        public async Task StopAsync()
+        public void Stop()
         {
-            throw new System.NotImplementedException();
+            _listener.Stop();
         }
 
         public async Task ResetAsync()
         {
-            await this.StopAsync();
+            this.Stop();
             await this.StartAsync();
         }
     }

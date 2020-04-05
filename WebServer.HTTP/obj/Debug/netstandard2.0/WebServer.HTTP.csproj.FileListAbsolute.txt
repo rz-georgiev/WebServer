@@ -2,3 +2,11 @@ E:\Development\WebServer\WebServer.HTTP\obj\Debug\netstandard2.0\WebServer.HTTP.
 E:\Development\WebServer\WebServer.HTTP\obj\Debug\netstandard2.0\WebServer.HTTP.csproj.CoreCompileInputs.cache
 E:\Development\WebServer\WebServer.HTTP\obj\Debug\netstandard2.0\WebServer.HTTP.AssemblyInfoInputs.cache
 E:\Development\WebServer\WebServer.HTTP\obj\Debug\netstandard2.0\WebServer.HTTP.AssemblyInfo.cs
+E:\Development\WebServer\WebServer.HTTP\bin\Debug\netstandard2.0\WebServer.HTTP.deps.json
+E:\Development\WebServer\WebServer.HTTP\bin\Debug\netstandard2.0\WebServer.HTTP.dll
+E:\Development\WebServer\WebServer.HTTP\bin\Debug\netstandard2.0\WebServer.HTTP.pdb
+E:\Development\WebServer\WebServer.HTTP\bin\Debug\netstandard2.0\WebServer.MvcFramework.dll
+E:\Development\WebServer\WebServer.HTTP\bin\Debug\netstandard2.0\WebServer.MvcFramework.pdb
+E:\Development\WebServer\WebServer.HTTP\obj\Debug\netstandard2.0\WebServer.HTTP.csproj.CopyComplete
+E:\Development\WebServer\WebServer.HTTP\obj\Debug\netstandard2.0\WebServer.HTTP.dll
+E:\Development\WebServer\WebServer.HTTP\obj\Debug\netstandard2.0\WebServer.HTTP.pdb

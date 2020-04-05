@@ -1,0 +1,49 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "MainApp/1.0.0": {
+        "dependencies": {
+          "WebServer.HTTP": "1.0.0"
+        },
+        "runtime": {
+          "MainApp.dll": {}
+        }
+      },
+      "WebServer.HTTP/1.0.0": {
+        "dependencies": {
+          "WebServer.MvcFramework": "1.0.0"
+        },
+        "runtime": {
+          "WebServer.HTTP.dll": {}
+        }
+      },
+      "WebServer.MvcFramework/1.0.0": {
+        "runtime": {
+          "WebServer.MvcFramework.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "MainApp/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "WebServer.HTTP/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "WebServer.MvcFramework/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
