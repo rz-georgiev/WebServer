@@ -35,8 +35,8 @@ namespace WebServer.HTTP
             var version = firstLine[2];
             HttpVersion = version switch
             {
+                "HTTP/1.0" => HttpVersion.HTTP10,
                 "HTTP/1.1" => HttpVersion.HTTP11,
-                "HTTP/1.2" => HttpVersion.HTTP12,
                 "HTTP/2.0" => HttpVersion.HTTP20,
                 _ => HttpVersion.UNDEFINED,
             };
@@ -54,7 +54,7 @@ namespace WebServer.HTTP
                     lastHeaderLine = index;
                     break;
                 }
-                var splitted = line.Split(':');
+                var splitted = line.Split(new char[] { ':' }, 2, System.StringSplitOptions.None);
                 Headers.Add(new HttpHeader { Name = splitted[0], Value = splitted[1] });
             }
 
