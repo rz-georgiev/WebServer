@@ -5,7 +5,6 @@ namespace WebServer.HTTP
 {
     public class HttpRequest
     {
-        // Proba
         public HttpRequest(string request)
         {
             if (string.IsNullOrWhiteSpace(request))
