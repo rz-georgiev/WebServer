@@ -8,7 +8,7 @@ namespace MainApp
     {
         static async Task Main(string[] args)
         {
-            HttpServer server = new HttpServer(10220);
+            HttpServer server = new HttpServer(12345);
             await server.StartAsync();
         }
     }

@@ -10,9 +10,11 @@ namespace WebServer.HTTP
             if (string.IsNullOrWhiteSpace(request))
                 return;
 
+            request = request.Trim();
+
             var lines = request.Split(new string[] { $"{HttpConstants.NEW_LINE}" }, System.StringSplitOptions.None);
 
-            if (lines.Length < 2)
+            if (lines.Length < 3)
                 throw new HttpServerException("Invalid header part");
 
             var firstLine = lines[0].Split(new string[] { " " }, System.StringSplitOptions.None);
@@ -39,44 +41,32 @@ namespace WebServer.HTTP
                 _ => HttpVersion.UNDEFINED,
             };
 
-            bool isInHeader = true;
+            var bodyBuilder = new StringBuilder();
+            int lastHeaderLine = 0;
             Headers = new List<HttpHeader>();
 
-            for (var index = 1; index <= lines.Length; index++)
+            for (var index = 1; index < lines.Length; index++)
             {
                 var line = lines[index];
 
                 if (string.IsNullOrWhiteSpace(line))
                 {
-
-                }
-                else
-                {
-
-                }
-
-                if (isInHeader)
-                {
-
-                }
-                else
-                {
-
-                }
-
-                if (!string.IsNullOrWhiteSpace(line))
-                {
-                    isInHeader = true;
-                    var splitted = line.Split(':');
-                    Headers.Add(new HttpHeader { Name = splitted[0], Value = splitted[1] });
-                }
-                else
-                {
-                    StringBuilder builder = new StringBuilder();
-                    for ()
+                    lastHeaderLine = index;
                     break;
                 }
+                var splitted = line.Split(':');
+                Headers.Add(new HttpHeader { Name = splitted[0], Value = splitted[1] });
             }
+
+            for (var index = lastHeaderLine + 1; index < lines.Length; index++)
+            {
+                var line = lines[index];
+
+                if (!string.IsNullOrWhiteSpace(line))
+                    bodyBuilder.Append(lines[index]);
+            }
+
+            Body = bodyBuilder.ToString();
         }
 
         public HttpMethodType MethodType { get; set; }
@@ -91,7 +81,7 @@ namespace WebServer.HTTP
 
         public override string ToString()
         {
-            return $"{MethodType} / {Path}";
+            return $"{MethodType} {Path}";
         }
     }
 }
