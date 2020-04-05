@@ -31,22 +31,27 @@ namespace WebServer.HTTP
 
                 string requestString = Encoding.UTF8.GetString(buffer);
                 HttpRequest request = new HttpRequest(requestString);
-
                 Console.WriteLine(request.ToString());
 
-                //string responseText = "<h1>Kur</h1>";
-                //string response = $"HTTP/1.1 200 OK{HttpConstants.NEW_LINE}" +
-                //                  $"Server: NaMaikaTiPutkata/2.0{HttpConstants.NEW_LINE}" +
-                //                  $"Content-Type: text/html{HttpConstants.NEW_LINE}" +
-                //                  $"Content-Length: {responseText.Length}{HttpConstants.NEW_LINE}" +
-                //                  $"Set-Cookie: Username=BatViRado; Max-Age={3600}; {HttpConstants.NEW_LINE}" +
-                //                  $"Set-Cookie: SSID=BatViRado; Max-Age={3600}; {HttpConstants.NEW_LINE}{HttpConstants.NEW_LINE}" +
-                //                  //$"Location: https://www.google.com/ {NEW_LINE}{NEW_LINE}" +
-                //                  //$"Content-Disposition: attachment; filename=kur.html{NEW_LINE}{NEW_LINE}" +
-                //                  $"{responseText}";
+                string responseContent = null;
+            
+                if (request.Path == "/")
+                    responseContent = "<h1>home page</h1>";
+                else if(request.Path == "/users/login")
+                    responseContent = "<h1>login page</h1>";
 
-                //byte[] reponseBytes = Encoding.UTF8.GetBytes(response);
-                //stream.Write(reponseBytes, 0, reponseBytes.Length);
+                if (!string.IsNullOrWhiteSpace(responseContent))
+                {
+                    byte[] content = Encoding.UTF8.GetBytes(responseContent);
+
+                    var response = new HttpResponse(HttpResponseCode.OK, content);
+                    response.Headers.Add(new HttpHeader { Name = "Server", Value = "Kazan/1.0" });
+                    response.Headers.Add(new HttpHeader { Name = "Content-Type", Value = "text/html" });
+
+                    byte[] responseBytes = Encoding.UTF8.GetBytes(response.ToString());
+                    await stream.WriteAsync(responseBytes, 0, responseBytes.Length);
+                    await stream.WriteAsync(response.Body, 0, response.Body.Length);
+                }  
             }
         }
 

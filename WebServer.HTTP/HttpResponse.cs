@@ -42,6 +42,7 @@ namespace WebServer.HTTP
                 builder.Append($"{header}{HttpConstants.NEW_LINE}");
             }
 
+            builder.Append(HttpConstants.NEW_LINE);
             return builder.ToString();
         }
     }
