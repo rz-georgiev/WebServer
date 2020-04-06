@@ -10,12 +10,13 @@ namespace WebServer.HTTP
             if (string.IsNullOrWhiteSpace(request))
                 return;
 
+            // Cleaning all prefix and suffix whitespaces
             request = request.Trim();
 
             var lines = request.Split(new string[] { $"{HttpConstants.NEW_LINE}" }, System.StringSplitOptions.None);
 
-            if (lines.Length < 3)
-                throw new HttpServerException("Invalid header part");
+            if (lines.Length < 1)
+                throw new HttpServerException("Insufficient header parts");
 
             var firstLine = lines[0].Split(new string[] { " " }, System.StringSplitOptions.None);
 

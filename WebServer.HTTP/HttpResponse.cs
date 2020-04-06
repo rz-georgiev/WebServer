@@ -14,7 +14,7 @@ namespace WebServer.HTTP
             Headers = new List<HttpHeader>();
 
             if (body?.Length > 0)
-                Headers.Add(new HttpHeader { Name = "Content-Length", Value = body.Length.ToString() });
+                Headers.Add(new HttpHeader { Name = "Content-Length", Value = body.Length.ToString() });           
         }
 
         public HttpVersion Version { get; set; }

@@ -9,7 +9,7 @@ namespace WebServer.HTTP
     public class HttpServer : IHttpServer
     {
         private TcpListener _listener;
-        private int _port;
+        private readonly int _port;
 
         public HttpServer(int port)
         {
@@ -34,11 +34,12 @@ namespace WebServer.HTTP
                 Console.WriteLine(request.ToString());
 
                 string responseContent = null;
-            
+
                 if (request.Path == "/")
                     responseContent = "<h1>home page</h1>";
-                else if(request.Path == "/users/login")
+                else if (request.Path == "/users/login")
                     responseContent = "<h1>login page</h1>";
+                
 
                 if (!string.IsNullOrWhiteSpace(responseContent))
                 {
@@ -51,7 +52,7 @@ namespace WebServer.HTTP
                     byte[] responseBytes = Encoding.UTF8.GetBytes(response.ToString());
                     await stream.WriteAsync(responseBytes, 0, responseBytes.Length);
                     await stream.WriteAsync(response.Body, 0, response.Body.Length);
-                }  
+                }
             }
         }
 
