@@ -11,7 +11,7 @@ namespace WebServer.HTTP
                 return;
 
             // Cleaning all prefix and suffix whitespaces
-            request = request.Trim();
+            //request = request.Trim();
 
             var lines = request.Split(new string[] { $"{HttpConstants.NEW_LINE}" }, System.StringSplitOptions.None);
 
@@ -19,6 +19,9 @@ namespace WebServer.HTTP
                 throw new HttpServerException("Insufficient header parts");
 
             var firstLine = lines[0].Split(new string[] { " " }, System.StringSplitOptions.None);
+            if (firstLine.Length < 3)
+                throw new HttpServerException("Insufficient service part information");
+
 
             var methodType = firstLine[0];
             MethodType = methodType switch

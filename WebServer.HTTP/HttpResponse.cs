@@ -12,16 +12,20 @@ namespace WebServer.HTTP
             Body = body;
 
             Headers = new List<HttpHeader>();
+            ResponseCookies = new List<HttpResponseCookie>();
 
             if (body?.Length > 0)
-                Headers.Add(new HttpHeader { Name = "Content-Length", Value = body.Length.ToString() });           
+                Headers.Add(new HttpHeader { Name = "Content-Length:", Value = body.Length.ToString() });           
         }
 
         public HttpVersion Version { get; set; }
 
         public HttpResponseCode ResponseCode { get; set; }
 
+
         public IList<HttpHeader> Headers { get; set; }
+
+        public IList<HttpResponseCookie> ResponseCookies { get; set; }
 
         public byte[] Body { get; set; }
 
@@ -36,13 +40,21 @@ namespace WebServer.HTTP
                 _ => "UNDEFINED"
             };
 
-            builder.Append($"{version} {(int)ResponseCode} {HttpConstants.NEW_LINE}");
+            builder.Append($"{version} {(int)ResponseCode} {ResponseCode} {HttpConstants.NEW_LINE}");
             foreach (var header in Headers)
             {
                 builder.Append($"{header}{HttpConstants.NEW_LINE}");
             }
 
+            foreach (var cookie in ResponseCookies)
+            {
+                builder.Append($"Set-Cookie: {cookie}{HttpConstants.NEW_LINE}");
+            }
+
+            // Notice: There should be always two empty rows on the bottom, so we can recognize the http body!
             builder.Append(HttpConstants.NEW_LINE);
+            builder.Append(HttpConstants.NEW_LINE);
+
             return builder.ToString();
         }
     }
