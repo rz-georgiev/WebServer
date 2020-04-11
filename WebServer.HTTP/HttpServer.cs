@@ -13,70 +13,74 @@ namespace WebServer.HTTP
         private TcpListener _listener;
         private readonly int _port;
         private readonly IList<Route> _routeTable;
+        private Dictionary<string, IDictionary<string, string>> _sessions;
 
         public HttpServer(int port, IList<Route> routeTable)
         {
             _port = port;
             _routeTable = routeTable;
+            _sessions = new Dictionary<string, IDictionary<string, string>>();
         }
 
         public async Task StartAsync()
         {
-            NetworkStream stream = null;
-            try
+            _listener = new TcpListener(IPAddress.Loopback, _port);
+            _listener.Start();
+
+            while (true)
             {
-                _listener = new TcpListener(IPAddress.Loopback, _port);
-                _listener.Start();
+                TcpClient client = await _listener.AcceptTcpClientAsync();
+                using NetworkStream stream = client.GetStream();
 
-                while (true)
+                try
                 {
-                    TcpClient client = await _listener.AcceptTcpClientAsync();
-                    stream = client.GetStream();
-
                     byte[] buffer = new byte[4096];
-                    int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                    await stream.ReadAsync(buffer, 0, buffer.Length);
 
                     string requestString = Encoding.UTF8.GetString(buffer);
+
+                    if (string.IsNullOrWhiteSpace(requestString))
+                        continue;
+
                     HttpRequest request = new HttpRequest(requestString);
                     Console.WriteLine(request.ToString());
 
                     HttpResponse response;
                     var route = _routeTable.SingleOrDefault(x => x.Type == request.MethodType && x.Path == request.Path);
                     if (route == null)
-                    {
                         response = new HttpResponse(HttpResponseCode.NotFound, new byte[0]);
-                    }
                     else
-                    {
                         response = route.Action(request);
+
+                    var cookie = response.ResponseCookies.FirstOrDefault(x => x.Name == HttpConstants.COOKIE_NAME);
+                    if (cookie == null || !_sessions.ContainsKey(cookie.Value))
+                    {
+                        var sessionId = Guid.NewGuid().ToString();
+                        response.ResponseCookies.Add
+                        (
+                            new HttpResponseCookie(HttpConstants.COOKIE_NAME, sessionId) { HttpOnly = false, MaxAge = 3600, Secure = true }
+                        );
+                        _sessions.Add(sessionId, new Dictionary<string, string>());
                     }
 
                     response.Headers.Add(new HttpHeader { Name = "Server:", Value = "Kazan/1.0" });
-                    response.ResponseCookies.Add
-                    (
-                        new HttpResponseCookie("sid", Guid.NewGuid().ToString()) { HttpOnly = false, MaxAge = 3600, Secure = true }
-                    );
-
                     var responseBytes = Encoding.UTF8.GetBytes(response.ToString());
-
 
                     await stream.WriteAsync(responseBytes, 0, responseBytes.Length);
                     await stream.WriteAsync(response.Body, 0, response.Body.Length);
                     await stream.FlushAsync();
-                    stream.Dispose();
-                    stream = null;
                 }
-            }
-            catch (Exception ex)
-            {
-                var errorResponse = new HttpResponse(HttpResponseCode.InternalServerError, Encoding.UTF8.GetBytes(ex.ToString()));
-                errorResponse.Headers.Add(new HttpHeader { Name = "Content-type", Value = "text/plain" });
+                catch (Exception ex)
+                {
+                    var errorResponse = new HttpResponse(HttpResponseCode.InternalServerError, Encoding.UTF8.GetBytes(ex.ToString()));
+                    errorResponse.Headers.Add(new HttpHeader { Name = "Content-type", Value = "text/plain" });
 
-                var errorResponseBytes = Encoding.UTF8.GetBytes(errorResponse.ToString());
+                    var errorResponseBytes = Encoding.UTF8.GetBytes(errorResponse.ToString());
 
-                await stream.WriteAsync(errorResponseBytes, 0, errorResponseBytes.Length);
-                await stream.WriteAsync(errorResponse.Body, 0, errorResponse.Body.Length);
-                await stream.FlushAsync();
+                    await stream.WriteAsync(errorResponseBytes, 0, errorResponseBytes.Length);
+                    await stream.WriteAsync(errorResponse.Body, 0, errorResponse.Body.Length);
+                    await stream.FlushAsync();
+                }
             }
         }
 

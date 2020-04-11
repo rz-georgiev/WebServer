@@ -7,12 +7,6 @@ namespace WebServer.HTTP
     {
         public HttpRequest(string request)
         {
-            if (string.IsNullOrWhiteSpace(request))
-                return;
-
-            // Cleaning all prefix and suffix whitespaces
-            //request = request.Trim();
-
             var lines = request.Split(new string[] { $"{HttpConstants.NEW_LINE}" }, System.StringSplitOptions.None);
 
             if (lines.Length < 1)

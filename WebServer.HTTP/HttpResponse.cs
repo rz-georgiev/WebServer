@@ -6,22 +6,32 @@ namespace WebServer.HTTP
     public class HttpResponse
     {
         public HttpResponse(HttpResponseCode responseCode, byte[] body)
+             : this()
         {
-            Version = HttpVersion.HTTP11;
             ResponseCode = responseCode;
             Body = body;
 
+            if (body?.Length > 0)
+            {
+                Headers.Add(new HttpHeader
+                {
+                    Name = "Content-Length:",
+                    Value = body.Length.ToString()
+                });
+            }
+        }
+
+        internal HttpResponse()
+        {
+            Version = HttpVersion.HTTP11;
+
             Headers = new List<HttpHeader>();
             ResponseCookies = new List<HttpResponseCookie>();
-
-            if (body?.Length > 0)
-                Headers.Add(new HttpHeader { Name = "Content-Length:", Value = body.Length.ToString() });           
         }
 
         public HttpVersion Version { get; set; }
 
         public HttpResponseCode ResponseCode { get; set; }
-
 
         public IList<HttpHeader> Headers { get; set; }
 
