@@ -1,7 +1,6 @@
 E:\Development\WebServer\WebServer.MvcFramework\bin\Debug\netstandard2.0\WebServer.MvcFramework.deps.json
 E:\Development\WebServer\WebServer.MvcFramework\bin\Debug\netstandard2.0\WebServer.MvcFramework.dll
 E:\Development\WebServer\WebServer.MvcFramework\bin\Debug\netstandard2.0\WebServer.MvcFramework.pdb
-E:\Development\WebServer\WebServer.MvcFramework\obj\Debug\netstandard2.0\WebServer.MvcFramework.csprojAssemblyReference.cache
 E:\Development\WebServer\WebServer.MvcFramework\obj\Debug\netstandard2.0\WebServer.MvcFramework.csproj.CoreCompileInputs.cache
 E:\Development\WebServer\WebServer.MvcFramework\obj\Debug\netstandard2.0\WebServer.MvcFramework.AssemblyInfoInputs.cache
 E:\Development\WebServer\WebServer.MvcFramework\obj\Debug\netstandard2.0\WebServer.MvcFramework.AssemblyInfo.cs

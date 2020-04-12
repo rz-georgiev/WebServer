@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebServer.HTTP;
+using WebServer.HTTP.Response;
 
 namespace MainApp
 {
@@ -17,7 +18,7 @@ namespace MainApp
                 new Route("/favicon.ico", HttpMethodType.GET, FavIcon),
             };
 
-            HttpServer server = new HttpServer(13365, routeTable);
+            HttpServer server = new HttpServer(80, routeTable);
             await server.StartAsync();
         }
 
@@ -43,7 +44,8 @@ namespace MainApp
 
         private static HttpResponse FavIcon(HttpRequest request)
         {
-            return new HtmlResponse("<h1>Fav form</h1>");
+            var response = new FileResponse("wwwroot/favicon.ico", "image/x-icon");
+            return response;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Text;
 
 namespace WebServer.HTTP
@@ -7,6 +8,12 @@ namespace WebServer.HTTP
     {
         public HttpRequest(string request)
         {
+            int lastHeaderLine = 0;
+            StringBuilder bodyBuilder = new StringBuilder();
+
+            Headers = new List<HttpHeader>();
+            Cookies = new List<HttpCookie>();
+
             var lines = request.Split(new string[] { $"{HttpConstants.NEW_LINE}" }, System.StringSplitOptions.None);
 
             if (lines.Length < 1)
@@ -15,7 +22,6 @@ namespace WebServer.HTTP
             var firstLine = lines[0].Split(new string[] { " " }, System.StringSplitOptions.None);
             if (firstLine.Length < 3)
                 throw new HttpServerException("Insufficient service part information");
-
 
             var methodType = firstLine[0];
             MethodType = methodType switch
@@ -39,10 +45,6 @@ namespace WebServer.HTTP
                 _ => HttpVersion.UNDEFINED,
             };
 
-            var bodyBuilder = new StringBuilder();
-            int lastHeaderLine = 0;
-            Headers = new List<HttpHeader>();
-
             for (var index = 1; index < lines.Length; index++)
             {
                 var line = lines[index];
@@ -54,6 +56,11 @@ namespace WebServer.HTTP
                 }
                 var splitted = line.Split(new char[] { ':' }, 2, System.StringSplitOptions.None);
                 Headers.Add(new HttpHeader { Name = splitted[0], Value = splitted[1] });
+
+                if (splitted[0] == "Cookie")
+                {
+                    Cookies.Add(new HttpCookie(HttpConstants.COOKIE_NAME, splitted[1]));
+                }
             }
 
             for (var index = lastHeaderLine + 1; index < lines.Length; index++)
@@ -69,11 +76,15 @@ namespace WebServer.HTTP
 
         public HttpMethodType MethodType { get; set; }
 
-        public string Path { get; set; }
-
         public HttpVersion HttpVersion { get; set; }
 
         public IList<HttpHeader> Headers;
+
+        public IList<HttpCookie> Cookies { get; set; }
+
+        public IDictionary<string, string> SessionData { get; set; }
+
+        public string Path { get; set; }
 
         public string Body { get; set; }
 

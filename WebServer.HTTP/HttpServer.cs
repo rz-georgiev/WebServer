@@ -11,9 +11,9 @@ namespace WebServer.HTTP
     public class HttpServer : IHttpServer
     {
         private TcpListener _listener;
-        private readonly int _port;
-        private readonly IList<Route> _routeTable;
         private Dictionary<string, IDictionary<string, string>> _sessions;
+        private readonly IList<Route> _routeTable;
+        private readonly int _port;
 
         public HttpServer(int port, IList<Route> routeTable)
         {
@@ -52,16 +52,20 @@ namespace WebServer.HTTP
                     else
                         response = route.Action(request);
 
-                    var cookie = response.ResponseCookies.FirstOrDefault(x => x.Name == HttpConstants.COOKIE_NAME);
-                    if (cookie == null || !_sessions.ContainsKey(cookie.Value))
+                    var cookie = request.Cookies.SingleOrDefault(x => x.Name == HttpConstants.COOKIE_NAME);
+                    if (cookie == null)
                     {
                         var sessionId = Guid.NewGuid().ToString();
-                        response.ResponseCookies.Add
-                        (
-                            new HttpResponseCookie(HttpConstants.COOKIE_NAME, sessionId) { HttpOnly = false, MaxAge = 3600, Secure = true }
-                        );
+                        var newCookie = new HttpResponseCookie(HttpConstants.COOKIE_NAME, sessionId) { HttpOnly = false, MaxAge = 3600, Secure = false };
+                        
+                        response.ResponseCookies.Add(newCookie);
                         _sessions.Add(sessionId, new Dictionary<string, string>());
                     }
+                    else
+                    {
+                       // request.SessionData = _sessions[cookie.Value];
+                    }
+
 
                     response.Headers.Add(new HttpHeader { Name = "Server:", Value = "Kazan/1.0" });
                     var responseBytes = Encoding.UTF8.GetBytes(response.ToString());
