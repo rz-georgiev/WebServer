@@ -16,3 +16,4 @@ E:\Development\WebServer\MainApp\obj\Release\netcoreapp3.1\MainApp.csproj.CopyCo
 E:\Development\WebServer\MainApp\obj\Release\netcoreapp3.1\MainApp.dll
 E:\Development\WebServer\MainApp\obj\Release\netcoreapp3.1\MainApp.pdb
 E:\Development\WebServer\MainApp\obj\Release\netcoreapp3.1\MainApp.genruntimeconfig.cache
+E:\Development\WebServer\MainApp\bin\Release\netcoreapp3.1\wwwroot\favicon.ico

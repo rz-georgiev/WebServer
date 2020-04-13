@@ -45,6 +45,23 @@ namespace WebServer.HTTP
                     HttpRequest request = new HttpRequest(requestString);
                     Console.WriteLine(request.ToString());
 
+                    HttpResponseCookie responseCookie = null;
+
+                    var cookie = request.Cookies.FirstOrDefault(x => x.Name == HttpConstants.COOKIE_NAME);
+                    if (cookie == null || !_sessions.ContainsKey(cookie.Value))
+                    {
+                        var sessionId = Guid.NewGuid().ToString();
+                        responseCookie = new HttpResponseCookie(HttpConstants.COOKIE_NAME, sessionId) { HttpOnly = false, MaxAge = 30 * 24 * 3600, Secure = false };
+                        var dictionary = new Dictionary<string, string>();
+
+                        request.SessionData = dictionary;
+                        _sessions.Add(sessionId, dictionary);
+                    }
+                    else
+                    {
+                        request.SessionData = _sessions[cookie.Value];
+                    }
+
                     HttpResponse response;
                     var route = _routeTable.SingleOrDefault(x => x.Type == request.MethodType && x.Path == request.Path);
                     if (route == null)
@@ -52,22 +69,11 @@ namespace WebServer.HTTP
                     else
                         response = route.Action(request);
 
-                    var cookie = request.Cookies.SingleOrDefault(x => x.Name == HttpConstants.COOKIE_NAME);
-                    if (cookie == null)
-                    {
-                        var sessionId = Guid.NewGuid().ToString();
-                        var newCookie = new HttpResponseCookie(HttpConstants.COOKIE_NAME, sessionId) { HttpOnly = false, MaxAge = 3600, Secure = false };
-                        
-                        response.ResponseCookies.Add(newCookie);
-                        _sessions.Add(sessionId, new Dictionary<string, string>());
-                    }
-                    else
-                    {
-                       // request.SessionData = _sessions[cookie.Value];
-                    }
-
+                    if (responseCookie != null)
+                        response.ResponseCookies.Add(responseCookie);
 
                     response.Headers.Add(new HttpHeader { Name = "Server:", Value = "Kazan/1.0" });
+
                     var responseBytes = Encoding.UTF8.GetBytes(response.ToString());
 
                     await stream.WriteAsync(responseBytes, 0, responseBytes.Length);

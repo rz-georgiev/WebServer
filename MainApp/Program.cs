@@ -13,22 +13,35 @@ namespace MainApp
             {
                 new Route("/", HttpMethodType.GET, Index),
                 new Route("/users/login/", HttpMethodType.GET, LoginPage),
+                new Route("/users/logout/", HttpMethodType.GET, LogoutPage),
                 new Route("/users/login/", HttpMethodType.POST, DoLogin),
                 new Route("/contacts", HttpMethodType.GET, Contacts),
                 new Route("/favicon.ico", HttpMethodType.GET, FavIcon),
             };
 
-            HttpServer server = new HttpServer(80, routeTable);
+            HttpServer server = new HttpServer(12220, routeTable);
             await server.StartAsync();
         }
 
         private static HttpResponse Index(HttpRequest request)
         {
-            return new HtmlResponse("<h1>Index form</h1>");
+            var username = request.SessionData.ContainsKey("Username") ? request.SessionData["Username"] : "Anonymous";
+            return new HtmlResponse($"<h1>Hello, {username}</h1>");
         }
 
         private static HttpResponse LoginPage(HttpRequest request)
+        {           
+            request.SessionData["Username"] = "John_Travolta";
+            request.SessionData["Language"] = "EN-en";
+
+            return new HtmlResponse("<h1>Login 1 form</h1>");
+        }
+
+        private static HttpResponse LogoutPage(HttpRequest request)
         {
+            request.SessionData.Remove("Username");
+            request.SessionData.Remove("Language");
+
             return new HtmlResponse("<h1>Login 1 form</h1>");
         }
 

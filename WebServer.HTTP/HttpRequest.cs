@@ -54,12 +54,14 @@ namespace WebServer.HTTP
                     lastHeaderLine = index;
                     break;
                 }
-                var splitted = line.Split(new char[] { ':' }, 2, System.StringSplitOptions.None);
-                Headers.Add(new HttpHeader { Name = splitted[0], Value = splitted[1] });
 
-                if (splitted[0] == "Cookie")
+                var splittedHeader = line.Split(new char[] { ':' }, 2, System.StringSplitOptions.None);
+                Headers.Add(new HttpHeader { Name = splittedHeader[0], Value = splittedHeader[1] });
+
+                if (splittedHeader[0] == "Cookie")
                 {
-                    Cookies.Add(new HttpCookie(HttpConstants.COOKIE_NAME, splitted[1]));
+                    var splittedCookie = splittedHeader[1].Split(new char[] { '=' }, 2, System.StringSplitOptions.None);
+                    Cookies.Add(new HttpCookie(HttpConstants.COOKIE_NAME, splittedCookie[1]));
                 }
             }
 

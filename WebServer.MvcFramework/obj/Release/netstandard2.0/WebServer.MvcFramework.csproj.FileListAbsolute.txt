@@ -6,3 +6,4 @@ E:\Development\WebServer\WebServer.MvcFramework\obj\Release\netstandard2.0\WebSe
 E:\Development\WebServer\WebServer.MvcFramework\obj\Release\netstandard2.0\WebServer.MvcFramework.AssemblyInfo.cs
 E:\Development\WebServer\WebServer.MvcFramework\obj\Release\netstandard2.0\WebServer.MvcFramework.dll
 E:\Development\WebServer\WebServer.MvcFramework\obj\Release\netstandard2.0\WebServer.MvcFramework.pdb
+E:\Development\WebServer\WebServer.MvcFramework\obj\Release\netstandard2.0\WebServer.MvcFramework.csprojAssemblyReference.cache
