@@ -42,7 +42,7 @@ namespace MainApp
             request.SessionData.Remove("Username");
             request.SessionData.Remove("Language");
 
-            return new HtmlResponse("<h1>Login 1 form</h1>");
+            return new HtmlResponse("<h1>Logout form</h1>");
         }
 
         private static HttpResponse DoLogin(HttpRequest request)
@@ -52,7 +52,8 @@ namespace MainApp
 
         private static HttpResponse Contacts(HttpRequest request)
         {
-            return new HtmlResponse("<h1>Contact form</h1>");
+            var response = new HtmlResponse("<h1>Contact form</h1>");
+            return response;
         }
 
         private static HttpResponse FavIcon(HttpRequest request)
